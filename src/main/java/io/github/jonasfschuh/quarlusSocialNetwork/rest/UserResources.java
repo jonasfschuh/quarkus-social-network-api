@@ -1,4 +1,4 @@
-package io.github.jonasfschuh.quarlusSocialNetwork;
+package io.github.jonasfschuh.quarlusSocialNetwork.rest;
 
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.UserRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.CreateUserRequest;
