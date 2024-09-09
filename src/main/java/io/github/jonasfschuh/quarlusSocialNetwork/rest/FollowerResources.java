@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 
 @Path("/users/{userId}/followers")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces uces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class FollowerResources {
 
     private final FollowerRepository followerRepository;
