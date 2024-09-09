@@ -16,20 +16,20 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class PostResources {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PostRepository postRepository;
 
     @Inject
-    public PostResources(UserRepository repository,
+    public PostResources(UserRepository userRepository,
                          PostRepository postRepository) {
-        this.repository = repository;
+        this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
 
     @POST
     @Transactional
     public Response savePost(@PathParam("userId") Long userId, CreatePostRequest postRequest) {
-        User user = repository.findById(userId);
+        User user = userRepository.findById(userId);
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -37,14 +37,14 @@ public class PostResources {
         Post post = new Post();
         post.setText(postRequest.getText());
         post.setUser(user);
-        repository.persist(post);
+        postRepository.persist(post);
 
         return Response.status(Response.Status.CREATED).build();
     }
 
     @GET
     public Response listAllPosts(@PathParam("userId") Long userId) {
-        User user = repository.findById(userId);
+        User user = userRepository.findById(userId);
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
