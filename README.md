@@ -4,6 +4,23 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
+## JONAS
+
+Quarkus Social Network API
+
+A simple social network for users to send short texts and follow each other.
+Contains a Users, Posts and Followers API
+
+Version: Quarkus 3.14.2
+https://code.quarkus.io/
+
+
+
+mvn compile quarkus:dev
+
+https://quarkus.io/guides/maven-tooling
+
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
@@ -64,3 +81,4 @@ If you want to learn more about building native executables, please consult <htt
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
