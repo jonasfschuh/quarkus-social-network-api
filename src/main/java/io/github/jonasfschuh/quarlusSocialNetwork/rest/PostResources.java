@@ -5,11 +5,17 @@ import io.github.jonasfschuh.quarlusSocialNetwork.domain.model.User;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.PostRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.UserRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.CreatePostRequest;
+import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.PostResponse;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Path("/users/{userId}/posts")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -37,6 +43,7 @@ public class PostResources {
         Post post = new Post();
         post.setText(postRequest.getText());
         post.setUser(user);
+        post.setDateTime(LocalDateTime.now());
         postRepository.persist(post);
 
         return Response.status(Response.Status.CREATED).build();
@@ -48,8 +55,15 @@ public class PostResources {
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        PanacheQuery<Post> allPosts = postRepository.find(
+                "user", Sort.by("dateTime", Sort.Direction.Descending), user);
+        var list = allPosts.list();
 
-        return Response.ok().build();
+        var postResponseList = list.stream()
+                .map(PostResponse::fromEntity)
+                .collect(Collectors.toList());
+
+        return Response.status(Response.Status.FOUND).entity(postResponseList).build();
     }
 
 }
