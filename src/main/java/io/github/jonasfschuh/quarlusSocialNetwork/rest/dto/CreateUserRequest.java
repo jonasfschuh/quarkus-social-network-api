@@ -3,7 +3,7 @@ package io.github.jonasfschuh.quarlusSocialNetwork.rest.dto;
 public class CreateUserRequest {
 
     private String name;
-    private String age;
+    private Integer age;
 
     public String getName() {
         return name;
@@ -13,11 +13,11 @@ public class CreateUserRequest {
         this.name = name;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }
