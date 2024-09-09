@@ -4,7 +4,6 @@ import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.UserReposito
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.CreateUserRequest;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.model.User;
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.ResponseError;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -19,13 +18,13 @@ import java.util.Set;
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class UserResources {
+public class UserResource {
 
     private final UserRepository repository;
     private final Validator validator;
 
     @Inject
-    public UserResources(UserRepository repository, Validator validator) {
+    public UserResource(UserRepository repository, Validator validator) {
         this.repository = repository;
         this.validator = validator;
     }
