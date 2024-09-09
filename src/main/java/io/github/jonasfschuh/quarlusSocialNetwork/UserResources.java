@@ -3,6 +3,7 @@ package io.github.jonasfschuh.quarlusSocialNetwork;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.UserRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.CreateUserRequest;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.model.User;
+import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.ResponseError;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
@@ -35,9 +36,8 @@ public class UserResources {
 
         Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
         if (!violations.isEmpty()) {
-            ConstraintViolation<CreateUserRequest> error = violations.stream().findAny().get();
-
-            return Response.status(400).entity(error.getMessage()).build();
+            ResponseError responseError = ResponseError.createFromValidation(violations);
+            return Response.status(400).entity(responseError).build();
         }
 
         User user = new User();
