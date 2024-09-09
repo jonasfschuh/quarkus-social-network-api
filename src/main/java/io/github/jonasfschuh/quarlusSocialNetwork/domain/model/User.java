@@ -1,4 +1,4 @@
-package io.github.jonasfschuh.quarlusSocialNetwork.rest.domain.model;
+package io.github.jonasfschuh.quarlusSocialNetwork.domain.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User extends PanacheEntityBase {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
