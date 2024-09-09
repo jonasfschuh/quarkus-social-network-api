@@ -11,18 +11,16 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.lang.annotation.Inherited;
-
 @Path("/users/{userId}/followers")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class FollowerResources {
+public class FollowerResource {
 
     private final FollowerRepository followerRepository;
     private final UserRepository userRepository;
 
     @Inject
-    public FollowerResources(
+    public FollowerResource(
             FollowerRepository followerRepository,
             UserRepository userRepository) {
         this.followerRepository = followerRepository;
@@ -40,10 +38,15 @@ public class FollowerResources {
         }
 
         var follower = userRepository.findById(followerRequest.getFollowerId());
-        var entity = new Follower();
-        entity.setUser(user);
-        entity.setFollower(follower);
-        followerRepository.persist(entity);
+
+        boolean follows = followerRepository.follows(follower, user);
+
+        if (!follows) {
+            var entity = new Follower();
+            entity.setUser(user);
+            entity.setFollower(follower);
+            followerRepository.persist(entity);
+        }
 
         return Response.status(Response.Status.NO_CONTENT).build();
     }
