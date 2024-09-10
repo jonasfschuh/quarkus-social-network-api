@@ -2,6 +2,7 @@ package io.github.jonasfschuh.quarlusSocialNetwork.rest;
 
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.model.Post;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.model.User;
+import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.FollowerRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.PostRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.domain.repository.UserRepository;
 import io.github.jonasfschuh.quarlusSocialNetwork.rest.dto.CreatePostRequest;
@@ -24,12 +25,15 @@ public class PostResource {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final FollowerRepository followerRepository;
 
     @Inject
     public PostResource(UserRepository userRepository,
-                        PostRepository postRepository) {
+                        PostRepository postRepository,
+                        FollowerRepository followerRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.followerRepository = followerRepository;
     }
 
     @POST
@@ -50,11 +54,36 @@ public class PostResource {
     }
 
     @GET
-    public Response listAllPosts(@PathParam("userId") Long userId) {
+    public Response listAllPosts(
+            @PathParam("userId") Long userId,
+            @HeaderParam("followerId") Long followerId) {
         User user = userRepository.findById(userId);
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        if (followerId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("You forgot to header followerId!")
+                    .build();
+        }
+
+        User follower = userRepository.findById(followerId);
+
+        if (follower == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Inexistent followerId!")
+                    .build();
+        }
+
+        Boolean follows = followerRepository.follows(follower, user);
+
+        if (!follows) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("You can´t see this user´s posts!")
+                    .build();
+        }
+
         PanacheQuery<Post> allPosts = postRepository.find(
                 "user", Sort.by("dateTime", Sort.Direction.Descending), user);
         var list = allPosts.list();
