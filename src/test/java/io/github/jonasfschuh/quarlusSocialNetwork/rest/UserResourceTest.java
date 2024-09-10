@@ -17,7 +17,7 @@ class UserResourceTest {
     @DisplayName("Should create an user successfully")
     public void CreateUserTest() {
         var user = new CreateUserRequest();
-        user.setName("Fulano");
+        user.setName("User Test");
         user.setAge(30);
 
         var response =
