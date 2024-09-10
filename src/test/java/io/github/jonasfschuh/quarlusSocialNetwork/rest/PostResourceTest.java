@@ -70,30 +70,61 @@ class PostResourceTest {
     @Test
     @DisplayName("Should return 404 when user doesn´t exist")
     public void listPostUserNotFoundTest() {
-
+        var inexistentUserId = 999L;
+        given()
+            .pathParam("userId", inexistentUserId)
+            .header("followerId", userId)
+        .when()
+            .get()
+        .then()
+            .statusCode(404);
     }
 
     @Test
     @DisplayName("Should return 400 when followerId header is not present ")
     public void listPostFollowerHeaderNotSendTest() {
-
+        given()
+            .pathParam("userId", userId)
+        .when()
+            .get()
+        .then()
+            .statusCode(400);
     }
 
     @Test
     @DisplayName("Should return 400 when follower doesn´t exist ")
     public void listPostFollowerNotFoundTest() {
-
+        var inexistentFollowerId = 999L;
+        given()
+            .pathParam("userId", userId)
+            .header("followerId", inexistentFollowerId)
+        .when()
+            .get()
+        .then()
+            .statusCode(400);
     }
 
     @Test
     @DisplayName("Should return 403 when follower isn´t a follower ")
     public void listPostFollowerNotAFollowerTest() {
-
+        var followerId = userId;
+        given()
+            .pathParam("userId", userId)
+            .header("followerId", followerId)
+        .when()
+            .get()
+        .then()
+            .statusCode(403);
     }
 
     @Test
     @DisplayName("Should return posts")
     public void listPostTest() {
+        var follower = new User();
+        follower.setName("Follower Test");
+        follower.setAge(30);
+        userRepository.persist(follower);
+
 
     }
 
