@@ -80,7 +80,7 @@ public class PostResource {
 
         if (!follows) {
             return Response.status(Response.Status.FORBIDDEN)
-                    .entity("You can´t see this user´s posts!")
+                    .entity("You can´t see these user´s posts!")
                     .build();
         }
 
