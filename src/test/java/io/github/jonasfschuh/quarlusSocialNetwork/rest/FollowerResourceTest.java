@@ -57,4 +57,24 @@ class FollowerResourceTest {
 
     }
 
+    @Test
+    @DisplayName("Should return 404 when userId doesn´t exists")
+    @Transactional
+    public void userNotFoundTest() {
+
+        var inexistentUserId = 999;
+        var body = new FollowerRequest();
+        body.setFollowerId(userId);
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+            .pathParam("userId", inexistentUserId)
+        .when()
+            .put()
+        .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+
+    }
+
 }
