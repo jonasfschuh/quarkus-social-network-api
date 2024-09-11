@@ -1,25 +1,16 @@
-# quarkus-social-network-api
+# Quarkus Social Network API
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
-
-## JONAS
-
-Quarkus Social Network API
 
 A simple social network for users to send short texts and follow each other.
 Contains a Users, Posts and Followers API
 
 Version: Quarkus 3.14.2
+
 https://code.quarkus.io/
 
-
-
-mvn compile quarkus:dev
-
 https://quarkus.io/guides/maven-tooling
-
 
 ## Running the application in dev mode
 
